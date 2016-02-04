@@ -83,32 +83,73 @@ P300_DS1_Score = P300_DS1(:, 2:3);
 P300_DS2_Score = P300_DS2(:, 2:3);
 P300_DS3_Score = P300_DS3(:, 2:3);
 P300_DS4_Score = P300_DS4(:, 2:3);
-P300_DSA_Score = P300_DS4(:, 2:3);
-P300_DSB_Score = P300_DS4(:, 2:3);
+P300_DSA_Score = P300_DSA(:, 2:3);
+P300_DSB_Score = P300_DSB(:, 2:3);
 
 SSVEP_DS1_Score = SSVEP_DS1(:, 2:3);
 SSVEP_DS2_Score = SSVEP_DS2(:, 2:3);
 SSVEP_DS3_Score = SSVEP_DS3(:, 2:3);
 SSVEP_DS4_Score = SSVEP_DS4(:, 2:3);
-SSVEP_DSA_Score = SSVEP_DS3(:, 2:3);
-SSVEP_DSB_Score = SSVEP_DS4(:, 2:3);
+SSVEP_DSA_Score = SSVEP_DSA(:, 2:3);
+SSVEP_DSB_Score = SSVEP_DSB(:, 2:3);
 
-P300_4clsDS_Score = [P300_DS1_Score(:, 1), P300_DS2_Score(:, 1), P300_DS3_Score(:, 1), P300_DS4_Score(:, 1)];
-P300_2clsDS_Score = [P300_DSA_Score(:, 1), P300_DSB_Score(:, 1)];
+P300_4clsDS_Score = [P300_DS1_Score, P300_DS2_Score, P300_DS3_Score, P300_DS4_Score];
+P300_2clsDS_Score = [
+    mean(P300_DSA_Score(1:2, :)), mean(P300_DSB_Score(1:2, :));
+    mean(P300_DSA_Score(3:4, :)), mean(P300_DSB_Score(3:4, :));
+    mean(P300_DSA_Score(5:6, :)), mean(P300_DSB_Score(5:6, :));
+    mean(P300_DSA_Score(7:8, :)), mean(P300_DSB_Score(7:8, :));
+    ];
 
 SSVEP_4clsDS_Score = [
-    mean(SSVEP_DS1_Score(1:17, 1)), mean(SSVEP_DS2_Score(1:17, 1)), mean(SSVEP_DS3_Score(1:17, 1)), mean(SSVEP_DS4_Score(1:17, 1));
-    mean(SSVEP_DS1_Score(18:34, 1)), mean(SSVEP_DS2_Score(18:34, 1)), mean(SSVEP_DS3_Score(18:34, 1)), mean(SSVEP_DS4_Score(18:34, 1));
-    mean(SSVEP_DS1_Score(35:51, 1)), mean(SSVEP_DS2_Score(35:51, 1)), mean(SSVEP_DS3_Score(35:51, 1)), mean(SSVEP_DS4_Score(35:51, 1));
-    mean(SSVEP_DS1_Score(52:68, 1)), mean(SSVEP_DS2_Score(52:68, 1)), mean(SSVEP_DS3_Score(52:68, 1)), mean(SSVEP_DS4_Score(52:68, 1));
+    mean(SSVEP_DS1_Score(1:17, :)), mean(SSVEP_DS2_Score(1:17, :)), mean(SSVEP_DS3_Score(1:17, :)), mean(SSVEP_DS4_Score(1:17, :));
+    mean(SSVEP_DS1_Score(18:34, :)), mean(SSVEP_DS2_Score(18:34, :)), mean(SSVEP_DS3_Score(18:34, :)), mean(SSVEP_DS4_Score(18:34, :));
+    mean(SSVEP_DS1_Score(35:51, :)), mean(SSVEP_DS2_Score(35:51, :)), mean(SSVEP_DS3_Score(35:51, :)), mean(SSVEP_DS4_Score(35:51, :));
+    mean(SSVEP_DS1_Score(52:68, :)), mean(SSVEP_DS2_Score(52:68, :)), mean(SSVEP_DS3_Score(52:68, :)), mean(SSVEP_DS4_Score(52:68, :));
     ];
 
 SSVEP_2clsDS_Score = [
-    mean(SSVEP_DSA_Score(1:17, 1)), mean(SSVEP_DSB_Score(1:17, 1));
-    mean(SSVEP_DSA_Score(18:34, 1)), mean(SSVEP_DSB_Score(18:34, 1));
-    mean(SSVEP_DSA_Score(35:51, 1)), mean(SSVEP_DSB_Score(35:51, 1));
-    mean(SSVEP_DSA_Score(52:68, 1)), mean(SSVEP_DSB_Score(52:68, 1));
+    mean(SSVEP_DSA_Score(1:34, :)), mean(SSVEP_DSB_Score(1:34, :));
+    mean(SSVEP_DSA_Score(35:68, :)), mean(SSVEP_DSB_Score(35:68, :));
+    mean(SSVEP_DSA_Score(69:102, :)), mean(SSVEP_DSB_Score(69:102, :));
+    mean(SSVEP_DSA_Score(103:136, :)), mean(SSVEP_DSB_Score(103:136, :));
     ];
+
+% === % === % === % === % === % === % === % === % === 
+%
+% DS Subtract (differencial) Files (TARGET - NonTARGET)
+%
+% ___________|_ Discriminant Score for TARGET - for NonTARGET _|
+% Duration 1 | x.xxxxxxxxxxxxx                                 |
+% Duration 2 | ...                                             |
+% Duration 3 | ...                                             |
+% Duration 4 | ...                                             |
+
+
+DIF_P300_4clsDS_Score = [
+    P300_4clsDS_Score(:, 1)-P300_4clsDS_Score(:, 2), P300_4clsDS_Score(:, 3)-P300_4clsDS_Score(:, 4),...
+    P300_4clsDS_Score(:, 5)-P300_4clsDS_Score(:, 6), P300_4clsDS_Score(:, 7)-P300_4clsDS_Score(:, 8)
+    ];
+
+DIF_P300_2clsDS_Score = [
+    P300_2clsDS_Score(:, 1)-P300_2clsDS_Score(:, 2), P300_2clsDS_Score(:, 1)-P300_2clsDS_Score(:, 2),...
+    P300_2clsDS_Score(:, 3)-P300_2clsDS_Score(:, 4), P300_2clsDS_Score(:, 3)-P300_2clsDS_Score(:, 4)
+    ];
+
+DIF_SSVEP_4clsDS_Score = [
+    SSVEP_4clsDS_Score(:, 1)-SSVEP_4clsDS_Score(:, 2), SSVEP_4clsDS_Score(:, 3)-SSVEP_4clsDS_Score(:, 4),...
+    SSVEP_4clsDS_Score(:, 5)-SSVEP_4clsDS_Score(:, 6), SSVEP_4clsDS_Score(:, 7)-SSVEP_4clsDS_Score(:, 8)
+    ];
+
+DIF_SSVEP_2clsDS_Score = [
+    SSVEP_2clsDS_Score(:, 1)-SSVEP_2clsDS_Score(:, 2), SSVEP_2clsDS_Score(:, 3)-SSVEP_2clsDS_Score(:, 4),...
+    SSVEP_2clsDS_Score(:, 1)-SSVEP_2clsDS_Score(:, 2), SSVEP_2clsDS_Score(:, 3)-SSVEP_2clsDS_Score(:, 4)
+    ];
+
+DIF_P300_4clsDS_Score
+DIF_P300_2clsDS_Score
+DIF_SSVEP_4clsDS_Score
+DIF_SSVEP_2clsDS_Score
 
 % === % === % === % === % === % === % === % === % === 
 
@@ -151,10 +192,10 @@ HYBRID_AllPROB_Rate = [HYBRID_PROB1_Rate(:, 1), HYBRID_PROB2_Rate(:, 1), HYBRID_
 
 % Debug
 
-P300_4clsDS_Score
-P300_2clsDS_Score
-SSVEP_4clsDS_Score
-SSVEP_2clsDS_Score
+%P300_4clsDS_Score
+%P300_2clsDS_Score
+%SSVEP_4clsDS_Score
+%SSVEP_2clsDS_Score
 
 % === % === % === % === % === % === % === % === % === 
 
@@ -172,21 +213,42 @@ end
 % Probability Calclation
 figure
 for i = 1:4
-    tmp = vertcat(P300_4clsPROB_Rate(i,:), P300_2clsPROB_Rate(i,:),...
+    ProbAll = vertcat(P300_4clsPROB_Rate(i,:), P300_2clsPROB_Rate(i,:),...
         SSVEP_4clsPROB_Rate(i,:), SSVEP_2clsPROB_Rate(i,:), HYBRID_AllPROB_Rate(i,:), Decision(i,:));
     
-    s(i) = subplot(2,2,i);
-    DepictMatrix(tmp, {'Target1','Target2','Target3','Target4'}, ...
+    p(i) = subplot(2,2,i);
+    DepictMatrix(ProbAll, {'Target1','Target2','Target3','Target4'}, ...
         {'P300Prob-4cls', 'P300Prob-2cls', 'SSVEPProb-4cls', 'SSVEPProb-2cls', 'HYBRIDProb-4cls', 'Decision'})
 end
 
-title(s(1), 'Duration 1')
-title(s(2), 'Duration 2')
-title(s(3), 'Duration 3')
-title(s(4), 'Duration 4')
+title(p(1), 'Duration 1')
+title(p(2), 'Duration 2')
+title(p(3), 'Duration 3')
+title(p(4), 'Duration 4')
 
-filename = strcat(directory, '/ProbCalc-SSVEP&P300LDA.png');
-saveas(gcf,filename)
+filename_PROB = strcat(directory, '/_ProbCalc-SSVEP&P300LDA.png');
+saveas(gcf,filename_PROB)
+
+
+% === % === % === % === % === % === % === % === % === 
+
+% Discriminant Score Calclation
+
+figure
+for i = 1:4
+    DSAll = vertcat(DIF_P300_4clsDS_Score(i,:), DIF_P300_2clsDS_Score(i,:), DIF_SSVEP_4clsDS_Score(i,:), DIF_SSVEP_2clsDS_Score(i,:));
+    
+    d(i) = subplot(2,2,i);
+    DepictMatrix(DSAll, {'Target1','Target2','Target3','Target4'}, ...
+        {'P300DS-4cls', 'P300DS-2cls', 'SSVEPDS-4cls', 'SSVEPDS-2cls'})
+end
+title(d(1), 'Duration 1')
+title(d(2), 'Duration 2')
+title(d(3), 'Duration 3')
+title(d(4), 'Duration 4')
+
+filename_DS = strcat(directory, '/_DSScore-SSVEP&P300LDA.png');
+saveas(gcf,filename_DS)
 
 end
 

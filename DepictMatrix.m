@@ -7,7 +7,7 @@ imagesc(Matrix);
 textStrings = num2str(Matrix(:),'%0.3f');  %# Create strings from the matrix values
 textStrings = strtrim(cellstr(textStrings));  %# Remove any space padding
 
-[x,y] = meshgrid(1:4, 1:6);   %# Create x and y coordinates for the strings
+[x,y] = meshgrid(1:m, 1:n);   %# Create x and y coordinates for the strings
 hStrings = text(x(:),y(:),textStrings(:),'HorizontalAlignment','center');
 midValue = mean(get(gca,'CLim'));
 
